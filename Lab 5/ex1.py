@@ -1,46 +1,34 @@
+
 import sys
 
-class Stack:
-    def __init__(self):
-        self.items = []
-
-    def push(self, item):
-        self.items.append(item)
-
-    def pop(self):
-        if not self.is_empty():
-            return self.items.pop()
-        else:
-            raise IndexError("pop from an empty stack")
-
-    def is_empty(self):
-        return len(self.items) == 0
-
-    def peek(self):
-        if not self.is_empty():
-            return self.items[-1]
-        
-        else:
-            return None
-
-def operations(a, b):
-
-    if '+':
-        return a + b
+def parser(expression):
+    stack = []
     
-    elif '-':
-        return 
-
-
-expression = sys.argv[1]
-
-if __name__ == "__main__":
-    stack = Stack()
     for i in expression:
-        if i.isdisgit() or i in operations:
-            stack.push(i)
-        elif i == ')':
-            b = stack.pop()
-            a = stack.pop()
-            op = stack.pop()
-            stack.push(operations(op)(int (a), int (b), ))
+        if (i != "(") and (i != ' '):
+            stack.append(i)
+        if i == ')':
+            stack.pop()
+            secondOperand = stack.pop()
+            firstOperand = stack.pop()
+            operator = stack.pop()
+            result = evaluate(operator, firstOperand, secondOperand)
+            stack.append(result)
+        else:
+            continue
+    
+    return stack.pop()
+    
+def evaluate(operator, one, second):
+    if operator == '+':
+        return int(one) + int(second)
+    elif operator == '-':
+        return int(one) - int(second)
+    elif operator == '*':
+        return int(one)*int(second)
+    elif operator == '/':
+        return int(one)/int(second)
+    else:
+        raise ValueError("Invalid Equation")
+
+print(parser(sys.argv[1].strip()))
