@@ -87,7 +87,7 @@ for i in range(100):
 
 print("ArrayStack average time:", sum(arraytimes) / len(arraytimes))
 print("LinkedListStack average time:", sum(lltimes) / len(lltimes))
-
+print("Implementing an array stack is much more efficient than implementing a Linked List stack.")
 plt.hist(arraytimes, bins=5, alpha=0.5, label='ArrayStack')
 plt.hist(lltimes, bins=5, alpha=0.5, label='LinkedListStack')
 plt.xlabel('Time Taken')
