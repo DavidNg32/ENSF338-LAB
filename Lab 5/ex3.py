@@ -85,6 +85,9 @@ for i in range(100):
     time_taken = timeit.timeit(lambda: execution(ArrayStack, tasks), number=1)
     arraytimes.append(time_taken)
 
+print("ArrayStack average time:", sum(arraytimes) / len(arraytimes))
+print("LinkedListStack average time:", sum(lltimes) / len(lltimes))
+
 plt.hist(arraytimes, bins=5, alpha=0.5, label='ArrayStack')
 plt.hist(lltimes, bins=5, alpha=0.5, label='LinkedListStack')
 plt.xlabel('Time Taken')
