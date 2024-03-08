@@ -46,15 +46,89 @@ class Node:
     def __init__(self, value):
         self.data = value
         self.next = None
+class CircularQueue:
+    def __init__(self):
+        self.head = None
+        self.tail = None
 
-    def getData(self):
-        return self.data
+    def enqueue(self, data):
+        new_node = Node(data)
+        if self.is_empty():
+            self.head = new_node
+            self.tail = new_node
+            self.tail.next = self.head
+        else:
+            new_node.next = self.head
+            self.tail.next = new_node
+            self.tail = new_node
 
-    def setData(self, value):
-        self.data = value
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is empty. Unable to dequeue data.")
+            return None
+        data = self.head.data
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
+            self.tail.next = self.head
+        return data
 
-    def getNext(self):
-        return self.next
+    def is_empty(self):
+        return self.head is None
 
-    def setNext(self, next):
-        self.next = next
+    def peek(self):
+        if self.is_empty():
+            print("Queue is empty. Unable to peek data.")
+            return None
+        return self.head.data
+    
+array_queue = ArrayQueue(5)
+circular_queue = CircularQueue()
+
+queues = [array_queue, circular_queue]
+
+for queue in queues:
+    print("\n" + "-" * 50)
+    print(f"Testing {queue.__class__.__name__}")
+
+    # Enqueue operations
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+    queue.enqueue(4)
+    queue.enqueue(5)
+
+    # Try to enqueue into a full queue
+    if isinstance(queue, ArrayQueue):
+        queue.enqueue(6)  # Expected output: "Queue is full. Unable to enqueue data."
+
+    print(queue.dequeue())  # Expected output: 1
+    print(queue.dequeue())  # Expected output: 2
+    print(queue.dequeue())  # Expected output: 3
+
+
+    queue.enqueue(7)
+    queue.enqueue(8)
+
+
+    print(queue.dequeue())  # Expected output: 4
+    print(queue.dequeue())  # Expected output: 5
+    print(queue.dequeue())  # Expected output: 7
+    print(queue.dequeue())  # Expected output: 8
+
+    # Try to dequeue from an empty queue
+    print(queue.dequeue())  # Expected output: "Queue is empty. Unable to dequeue data."
+
+    # Try to peek into an empty queue
+    print(queue.peek())  # Expected output: None 
+
+    # Enqueue into an empty queue
+    queue.enqueue(9)
+
+    # Dequeue operations
+    print(queue.dequeue())  # Expected output: 9
+
+    # Try to dequeue from an empty queue
+    print(queue.dequeue())  # Expected output: "Queue is empty. Unable to dequeue data." 
