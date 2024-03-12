@@ -16,6 +16,7 @@ class BinarySearchTree:
             self.root = TreeNode(key)
             return
         current = self.root
+
         while True:
             if key < current.key:
                 if current.left:
@@ -30,7 +31,6 @@ class BinarySearchTree:
                     current.right = TreeNode(key)
                     return
             else:
-                # Key already exists, do nothing
                 return
 
     def search(self, key):
@@ -44,24 +44,39 @@ class BinarySearchTree:
                 current = current.right
         return False
 
-# Generating a sorted vector
-sorted_vector = list(range(10000))
+def createTree(sortmyVector):
+    tree = BinarySearchTree()
+    for i in sortmyVector:
+        tree.insert(i)
+    return tree
 
-# Building a tree by inserting each element
-bst = BinarySearchTree()
-for num in sorted_vector:
-    bst.insert(num)
+def measurePerf(tree, elements):
+    overallTime = 0
+    for i in elements:
+        average = timeit.timeit(lambda: tree.search(i), number=10)
+        overallTime += average
+    return overallTime / len(elements), overallTime
 
-# Measuring search performance
 
-def measure_search_performance():
-    total_time = 0
-    for num in sorted_vector:
-        avg_time = timeit.timeit(lambda: bst.search(num), number=10)
-        total_time += avg_time
-    return total_time / len(sorted_vector), total_time
+def main():
+    testVector = list(range(10000))
 
-avg_time, total_time = measure_search_performance()
-print("Search performance:")
-print("Average time per search:", avg_time)
-print("Total time for all searches:", total_time)
+    treeSorted = createTree(testVector)
+    average, overallTime = measurePerf(treeSorted, testVector)
+    print(f"\nTime performance with a sorted vector || Average= {average} || Total= {overallTime}")
+
+    random.shuffle(testVector)
+    treeShuffle = createTree(testVector)
+    average, overallTime = measurePerf(treeShuffle, testVector)
+    print(f"\nTime performance with a shuffled vector || Average= {average} || Total= {overallTime}\n")
+
+# Question 4:
+# Based on the results of our measured performance regarding sorted vs
+# shuffled, It is way more quicker to use the shuffled vector input.
+# A unbalanced binary search tree runs less efficient than a balanced one.
+# As larger trees call for longer search times this is due to imbalance in elements
+# from a inserted vector that was sorted. In a case of shuffled insertion, it results
+# in a vector that gives balance due to proper reaarangement.
+
+if __name__ == "__main__":
+    main()
