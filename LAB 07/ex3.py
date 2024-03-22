@@ -23,8 +23,7 @@ class AVL_Tree:
 
         root.balance = self.BalanceOfRoot(root.left) - self.BalanceOfRoot(root.right)
 
-        if root.balance > 1 or root.balance < -1:
-            self.balanceNode(root, key)
+        self.balanceNode(root, key)
 
         return root
 
@@ -59,8 +58,8 @@ class AVL_Tree:
         node.left = node2.right
         node2.right = node
         
-        node.balance = self.BalanceOfRoot(node.left) - self.BalanceOfRoot(node.right)
-        node2.balance = self.BalanceOfRoot(node2.left) - self.BalanceOfRoot(node2.right)
+        node.balance = self.BalanceOfRoot(node)
+        node2.balance = self.BalanceOfRoot(node2)
         
         return node2
     
@@ -69,8 +68,8 @@ class AVL_Tree:
         node.right = node2.left
         node2.left = node
         
-        node.balance = self.BalanceOfRoot(node.left) - self.BalanceOfRoot(node.right)
-        node2.balance = self.BalanceOfRoot(node2.left) - self.BalanceOfRoot(node2.right)
+        node.balance = self.BalanceOfRoot(node)
+        node2.balance = self.BalanceOfRoot(node2)
         
         return node2
 
@@ -78,7 +77,7 @@ class AVL_Tree:
         return self.searchRec(self.root, key)
 
     def searchRec(self, root, key):
-        if root is None or root.kenode2 == key:
+        if root is None or root.key == key:
             return root
         if key < root.key:
             return self.searchRec(root.left, key)
