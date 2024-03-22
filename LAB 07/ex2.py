@@ -95,22 +95,20 @@ class AVL_Tree:
 def testAvlTree():
     AVLTest = AVL_Tree()
     print("Testing Case 1:")
-    AVLTest.insert(10)
-    AVLTest.insert(5)
-    AVLTest.insert(15)
-    AVLTest.insert(2)
-    AVLTest.insert(20)
-    AVLTest.insert(1)
-    AVLTest.insert(3)
-    AVLTest.insert(4)
+    valuesSet1 = [10, 5, 15, 2, 20, 1, 3, 4]
+    valuesSet2 = [7, 6]
+    valuesSet3 = [11, 22, 33, 44]
+
+    for i in valuesSet1:
+        AVLTest.insert(i)
+    
     print("\nTesting Case 2:")
-    AVLTest.insert(7)
-    AVLTest.insert(6)
+    for i in valuesSet2:
+        AVLTest.insert(i)
+
     print("\nTesting Case 3:")
-    AVLTest.insert(30)
-    AVLTest.insert(25)
-    AVLTest.insert(35)
-    AVLTest.insert(40)
+    for i in valuesSet3:
+        AVLTest.insert(i)
     print("Case #3: Not supported")
 
 if __name__ == "__main__":
