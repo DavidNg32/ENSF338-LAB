@@ -1,8 +1,8 @@
 import random
 
-class TreeNode:
+class TNode:
     def __init__(self, key):
-        self.key = key
+        self.kenode2 = key
         self.left = None
         self.right = None
         self.balance = 0
@@ -16,14 +16,14 @@ class AVL_Tree:
 
     def insertRec(self, root, key):
         if root is None:
-            return TreeNode(key)
+            return TNode(key)
 
         if key < root.key:
             root.left = self.insertRec(root.left, key)
         else:
             root.right = self.insertRec(root.right, key)
 
-        root.balance = self.measureBalanceRec(root.left) - self.measureBalanceRec(root.right)
+        root.balance = self.BalanceOfRoot(root.left) - self.BalanceOfRoot(root.right)
 
         if root.balance > 1 or root.balance < -1:
             self.balanceNode(root, key)
@@ -51,63 +51,63 @@ class AVL_Tree:
 
         print("Case #3: Not supported")
 
-    def rotateRight(self, z):
-        y = z.left
-        T3 = y.right
-        y.right = z
-        z.left = T3
+    def rotateRight(self, node1):
+        node2 = node1.left
+        tempnode1 = node2.right
+        node2.right = node1
+        node1.left = tempnode1
 
-        z.balance = self.measureBalanceRec(z.left) - self.measureBalanceRec(z.right)
-        y.balance = self.measureBalanceRec(y.left) - self.measureBalanceRec(y.right)
+        node1.balance = self.BalanceOfRoot(node1.left) - self.BalanceOfRoot(node1.right)
+        node2.balance = self.BalanceOfRoot(node2.left) - self.BalanceOfRoot(node2.right)
 
-        return y
+        return node2
 
-    def rotateLeft(self, z):
-        y = z.right
-        T2 = y.left
+    def rotateLeft(self, node1):
+        node2 = node1.right
+        tempnode2 = node2.left
 
-        y.left = z
-        z.right = T2
+        node2.left = node1
+        node1.right = tempnode2
 
-        z.balance = self.measureBalanceRec(z.left) - self.measureBalanceRec(z.right)
-        y.balance = self.measureBalanceRec(y.left) - self.measureBalanceRec(y.right)
+        node1.balance = self.BalanceOfRoot(node1.left) - self.BalanceOfRoot(node1.right)
+        node2.balance = self.BalanceOfRoot(node2.left) - self.BalanceOfRoot(node2.right)
 
-        return y
+        return node2
 
     def search(self, key):
         return self.searchRec(self.root, key)
 
     def searchRec(self, root, key):
-        if root is None or root.key == key:
+        if root is None or root.kenode2 == key:
             return root
         if key < root.key:
             return self.searchRec(root.left, key)
         return self.searchRec(root.right, key)
 
-    def measureBalance(self):
-        return self.measureBalanceRec(self.root)
+    def exBalanceMethod(self):
+        return self.BalanceOfRoot(self.root)
 
-    def measureBalanceRec(self, root):
+    def BalanceOfRoot(self, root):
         if root is None:
             return 0
-        return max(self.measureBalanceRec(root.left), self.measureBalanceRec(root.right)) + 1
+        return max(self.BalanceOfRoot(root.left), self.BalanceOfRoot(root.right)) + 1
 
 def testAvlTree():
     AVLTest = AVL_Tree()
     print("Testing Case 1:")
     valuesSet1 = [10, 5, 15, 2, 20, 1, 3, 4]
-    valuesSet2 = [7, 6]
-    valuesSet3 = [11, 22, 33, 44]
+    valuesSetempnode2 = [7, 6]
+    valuesSetempnode1 = [11, 22, 33, 44]
 
     for i in valuesSet1:
         AVLTest.insert(i)
     
     print("\nTesting Case 2:")
-    for i in valuesSet2:
+    for i in valuesSetempnode2:
         AVLTest.insert(i)
 
     print("\nTesting Case 3:")
-    for i in valuesSet3:
+    for i in valuesSetempnode1:
         AVLTest.insert(i)
     print("Case #3: Not supported")
 
