@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+import time
 
 class TreeNode:
     def __init__(self, key):
@@ -41,17 +42,18 @@ class BinarySearchTree:
             return 0
         return max(self.measureBalRec(root.left), self.measureBalRec(root.right)) + 1
 
-
 def checkPerform(bst, tasks):
     timeSearch = []
     balanceVal = []
     for task in tasks:
+        start_time = time.time()  # Start timing
         search_time = 0
         for integer in task:
             node = bst.search(integer)
             search_time += 1
+        end_time = time.time()  # End timing
         balance = bst.balanceMeasure()
-        timeSearch.append(search_time)
+        timeSearch.append(end_time - start_time)  
         balanceVal.append(balance)
     return timeSearch, balanceVal
 
@@ -60,15 +62,23 @@ def makeTasks():
     random.shuffle(integers)
     return integers
 
-def plotMe(balanceVal, timeSearch):
-    plt.scatter(balanceVal, timeSearch, alpha=0.5)
-    plt.xlabel('Absolute Balance')
-    plt.ylabel('Search Time')
-    plt.title('Balance vs. Search Time')
-    plt.show()
+def average(lst):
+    return sum(lst) / len(lst)
 
 if __name__ == "__main__":
     bst = BinarySearchTree()
     tasks = [makeTasks() for _ in range(1000)]
-    timeSearch, balanceVal = checkPerform(bst, tasks)
-    plotMe(balanceVal, timeSearch)
+    avg_performance = []
+    largest_balance = []
+    for task in tasks:
+        for integer in task:
+            bst.insert(integer)
+        timeSearch, balanceVal = checkPerform(bst, [task])
+        avg_performance.append(average(timeSearch))
+        largest_balance.append(max(balanceVal))
+        bst.root = None  
+    plt.scatter(largest_balance, avg_performance, alpha=0.5)
+    plt.xlabel('Absolute Balance')
+    plt.ylabel('Average Search Time')
+    plt.title('Balance vs. Search Time')
+    plt.show()
