@@ -2,7 +2,7 @@ import random
 
 class TNode:
     def __init__(self, key):
-        self.kenode2 = key
+        self.key = key
         self.left = None
         self.right = None
         self.balance = 0
